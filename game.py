@@ -6,6 +6,9 @@ def user_inp_comms():
     keepTaking = True
     while keepTaking:
         len_of_word = int(input('\nWhat should be the length of the word?\n'))
+        if len_of_word > 32:
+            print("\nI don't really know a word that big. If you do know one, then..... well, good for you, I guess...\n")
+            continue
         no_of_guesses = int(input('\nHow many guesses do you want?\n'))
         if no_of_guesses < len_of_word:
             print("\nHmmm... You need more guesses than the length of the chosen word. Trust me on that.\n")
@@ -32,7 +35,11 @@ def take_user_input():
    
     while no_of_guesses > 0:
         guess = input('\nEnter your guess\n').strip()
+        if len(guess) > 1:
+            print("\nYou can't guess multiple letters at once. Please only guess one letter.\n")
+            continue
         the_guesses.append(guess)
+
         if guess in word_for_game:
             correct_guess_count += 1
             print(f'\nCorrect guess\n')
@@ -74,18 +81,24 @@ def losing_screen(losing_screen_word):
 
 
 def play_again():
-    print('\n\nDo you want to play again... (Y/N)\n')
-    choice = input("Pressing 'Y' will start a new game. Pressing 'N' will quit the terminal window\n").lower()
-    if choice == 'y':
-        os.system('cls' if os.name == 'nt' else 'clear')
-        take_user_input()
-    else:
-        print('\nThanks again for playing the word guessing game!!!')
-        time.sleep(2)
-        print('\nClosing the terminal in 5 seconds...')
-        time.sleep(5)
-        os.kill(os.getppid(), signal.SIGHUP)
-
+    keepAsking = True
+    while keepAsking:
+        print('\n\nDo you want to play again... (Y/N)\n')
+        choice = input("Pressing 'Y' will start a new game. Pressing 'N' will quit the terminal window\n").lower()
+        if choice == 'y':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            keepAsking = False
+            take_user_input()
+        elif choice == 'n':
+            keepAsking = False
+            print('\nThanks again for playing the word guessing game!!!')
+            time.sleep(2)
+            print('\nClosing the terminal in 5 seconds...')
+            time.sleep(5)
+            os.kill(os.getppid(), signal.SIGHUP)
+        else:
+            print("\nThat was neither a Yes, nor a No... But I'll give you the benefit of the doubt and ask again...")
+            continue
 
 
 
