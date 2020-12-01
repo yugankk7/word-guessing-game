@@ -2,9 +2,25 @@ from word_finder import word_finder_func
 import os, signal, time
 
 
+def user_inp_comms():
+    keepTaking = True
+    while keepTaking:
+        len_of_word = int(input('\nWhat should be the length of the word?\n'))
+        no_of_guesses = int(input('\nHow many guesses do you want?\n'))
+        if no_of_guesses < len_of_word:
+            print("\nHmmm... You need more guesses than the length of the chosen word. Trust me on that.\n")
+            continue
+        elif no_of_guesses == len_of_word:
+            print("o_O Daring today, aren't we? You'll need more guesses, but you do you...\n")
+            keepTaking = False
+        else:
+            keepTaking = False
+    return len_of_word, no_of_guesses
+
+
 def take_user_input():
-    len_of_word = int(input('\nWhat should be the length of the word?\n'))
-    no_of_guesses = int(input('\nHow many guesses do you want?\n'))
+    
+    len_of_word, no_of_guesses = user_inp_comms()
     word_for_game = word_finder_func(len_of_word)
     losing_screen_word = word_for_game
     the_guesses = []
